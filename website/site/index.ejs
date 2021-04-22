@@ -1,0 +1,205 @@
+<html>
+  <head>
+    <title>WhYBoLu Server List</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+  </head>
+  <body style="background-color: #1c1c1c; color: #fff;"> 
+  <% if(req.user) { %>
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #141414">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">WhYBoLu Server List</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Anasayfa</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/ses">Ses Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/oy">Oy Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sunucular">Sunucular</a>
+        </li>
+      </ul>  
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    <%= user.username %>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+    <li><a class="dropdown-item active" href="/profil/<%=req.user.id%>">Profil</a></a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="/cikis">Çıkış Yap</a></li>
+  </ul>
+</div>
+    </div>
+
+  </div>
+</nav> 
+ 
+  <% } else { %>
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #141414">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">WhYBoLu Server List</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Anasayfa</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/siralama/ses">Ses Sıralaması</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/siralama/oy">Oy Sıralaması</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/sunucular">Sunucular</a>
+        </li>
+      </ul> 
+      <a class="btn btn-outline-success" href="/giris">Giriş</a>
+    </div>
+  </div>
+</nav> 
+  <% } %>
+<br>
+
+<% if(req.user) { %>
+  <div class="jumbotron bg-cover text-white">
+    <div class="container py-5 text-center">
+      <img src="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458" style="border-radius: 50%">
+      <h1 class="display-4 font-weight-bold">Selam <a href="/davet" style="text-decoration: none;"><%=req.user.username%></a></h1>
+        <p class="mb-0">En güzel sunucuları en hızlı bir şekilde bulabilmen için WhYBoLu Server List'i yaptık!</p>
+        <br>
+        <a href="/davet" role="button" class="btn btn-primary px-5">Botumuzu ekler misin?</a>
+      
+       
+    </div>
+</div>
+<% } else { %>
+  <div class="jumbotron bg-cover text-white">
+    <div class="container py-5 text-center">
+      <img src="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458" style="border-radius: 50%">
+      <h1 class="display-4 font-weight-bold">Selam <a href="/davet" style="text-decoration: none;">Misafir</a></h1>
+        <p class="mb-0">En güzel sunucuları en hızlı bir şekilde bulabilmen için WhYBoLu Server List'i yaptık!</p>
+        <br>
+        <a href="/davet" role="button" class="btn btn-primary px-5">Botumuzu Ekler'misin?</a>
+      
+       
+    </div>
+</div>
+<% } %>
+ 
+
+    <div class="enCokOy">
+      <h1 style="text-align: center"><img src="https://cdn.discordapp.com/emojis/782608516170121247.png?v=1" style="width: 45px; height: 45px;"> | En Çok Oy Alan Sunucular</h1>
+      <br><br><br>
+      <div class="container">
+        <div class="row" style="margin: auto; margin-left: auto; margin-right: auto; float: left; display: inline-block;">
+        <div class="col-md-6 col-lg-4 pb-3">
+          <% if (bot.db.has('servers')) { %>
+          <% const sorted = Object.keys(bot.db.fetch('servers')).sort((a, b) => { return (bot.db.fetch(`servers.${b}.serverVote`) || 0) - (bot.db.fetch(`servers.${a}.serverVote`) || 0) }) %>
+          <% const top = sorted.splice(0, 6) %>
+          <% const map = top.map(x=>x) %>
+	        <% for(var i = 0; i < Object.keys(bot.db.fetch('servers')).length; i++) { %>
+          <% let idd = map[i] %>
+          <% if(bot.db.has(`servers.${idd}`) === true) { %>
+                <div class="card card-custom bg-dark border-dark border-0"> 
+                <div class="card-custom-img" style="background-image: url(https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg);"></div>
+                <div class="card-custom-avatar">
+                  <% 
+                  let resim;
+                  if(bot.db.fetch(`servers.${idd}.serverIcon`)) {
+                    resim = bot.db.fetch(`servers.${idd}.serverIcon`)
+                  } else {
+                    resim = "https://images-ext-1.discordapp.net/external/9i7pqUh3tNwm0sG4Pg2MX_8WqKtSqBvZyR44NLWtsBQ/https/blog.logomyway.com/wp-content/uploads/2020/12/discord-mascot.png" 
+                  }
+                  %>
+                <img class="img-fluid" src="<%=resim%>" alt="Avatar" />
+                </div>
+                <div class="card-body" style="overflow-y: auto">
+            <h4 class="card-title"><%= bot.db.fetch(`servers.${idd}.serverName`) %></h4>
+            <div class="card-vote"></i> <p><%= bot.db.fetch(`servers.${idd}.serverVote`) %></p></div>
+            <p class="card-text">naber</p>
+          </div>
+          <div class="card-footer" style="background: inherit; border-color: inherit; text-align: center">
+            <a href="/sunucu/<%= bot.db.fetch(`servers.${idd}.serverID`) %>" class="btn btn-primary">Bilgiler</a>
+            <a href="/sunucu/<%= bot.db.fetch(`servers.${idd}.serverID`) %>/katil" class="btn btn-outline-primary">Sunucuya Katıl</a>
+          </div>
+
+                </div>
+                </div>
+                </div>
+          <% } %>
+          <% } %>
+          <% } %>
+        </div> 
+      </div> 
+    </div>
+         
+    
+  </div> 
+       
+<br><br><br><br><br><br>
+    <footer>
+        	<div class="footer-top" style="text-decoration: none;">
+		        <div class="container">
+		        	<div class="row">
+		        		<div class="col-md-3 footer-about wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+		        			<img class="logo-footer" style="border-radius: 50%;" src="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458" alt="logo-footer" data-at2x="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458">
+		        			<p>
+		        				WhYBoLu Server List TheClawNz#7987 tarafından sizler için yapılmıştır.
+		        			</p>
+	              </div>
+		        		<div class="col-md-4 offset-md-1 footer-contact wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+		        			<h3>İletişim</h3>
+		                	<p><i class="fab fa-discord"></i> https://discord.gg/AJ4fzBsuSq</p>
+		                	<p><i class="fas fa-phone"></i> Yakında</p>
+		                	<p><i class="fas fa-envelope"></i> Email: <a href="mailto:75theclawnz@gmail.com">75theclawnz@gmail.com</a></p>
+	                    </div>
+	                    <div class="col-md-4 footer-links wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                    	<div class="row">
+	                    		<div class="col">
+	                    			<h3>Bağlantılar</h3>
+	                    		</div>
+	                    	</div>
+	                    	<div class="row">
+	                    		<div class="col-md-6">
+	                    			<p><a class="scroll-link" href="/">Anasayfa</a></p>
+	                    			<p><a href="/siralama/ses">Ses Sıralaması</a></p>
+	                    			<p><a href="/siralama/oy">Oy Sıralaması</a></p>
+	                    			<p><a href="/sunucular">Sunucular</a></p>
+	                    		</div>
+	                    	</div>
+	                    </div>
+		            </div>
+		        </div>
+	        </div>
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<div class="row">
+	           			<div class="col-md-6 footer-copyright">
+	                    	© WhYBoLu Server List by <a href="https://discord.gg/AJ4fzBsuSq">TheClawNz#7987</a>
+	                    </div>
+	           			<div class="col-md-6 footer-social">
+							<a href="https://twitter.com/WhYBoLu"><i class="fab fa-twitter"></i></a>  
+							<a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="https://discord.gg/AJ4fzBsuSq"><i class="fab fa-discord"></i></a>
+	                    </div>
+	           		</div>
+	        	</div>
+	        </div>
+        </footer>
+
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html> 
