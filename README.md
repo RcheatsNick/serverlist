@@ -7,3 +7,18 @@ Bu websitesi TheClawNz#7987 tarafından yapılmıştır, ücretli bir şekilde v
 Modüllerin yüklenmesi için öncelikle <code>npm install</code> yazınız,
 ardından <code>index.js</code> adlı dosyaya girip en aşağıya botunuzun tokenini girin,
 ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <code>oauthSecret</code> kısmına botunuzun oauth secretini giriniz, sonrasında <code>callbackURL</code> yazan yere botunuzun callback urlsini yazın (Örnek: https://blabla.com/callback), ardından <code>domain</code> yazan yere websitenizin urlsini yazın.
+
+# Yapılacaklar
+
+• Sunucu Düzenleme: ❌
+• Ses Sıralama: ❌
+• Profil Düzenleme: ❌
+• Sertifika Sistemi: ❌
+• Flash Messages: ❌
+
+# Proje Bilgileri
+
+• Yayınlanma Tarihi: 23.4.2021 - 01:33
+• Başlangıç Tarihi: 18.4.2021 - 20:00
+• Proje Sahibi: TheClawNz#7987
+• Yardımcılar: NullMan#4807
