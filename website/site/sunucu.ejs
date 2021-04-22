@@ -1,0 +1,263 @@
+<html>
+  <head>
+    <title>WhYBoLu Server List</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+  </head>
+  <body style="background-color: #1c1c1c; color: #fff;"> 
+  <% if(req.user) { %>
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #141414">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">WhYBoLu Server List</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Anasayfa</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/ses">Ses Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/oy">Oy Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sunucular">Sunucular</a>
+        </li>
+      </ul>  
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    <%= user.username %>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+    <li><a class="dropdown-item active" href="/profil/<%=req.user.id%>">Profil</a></a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="/cikis">Çıkış Yap</a></li>
+  </ul>
+</div>
+    </div>
+
+  </div>
+</nav> 
+ 
+  <% } else { %>
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #141414">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">WhYBoLu Server List</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Anasayfa</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/siralama/ses">Ses Sıralaması</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/siralama/oy">Oy Sıralaması</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/sunucular">Sunucular</a>
+        </li>
+      </ul> 
+      <a class="btn btn-outline-success" href="/giris">Giriş</a>
+    </div>
+  </div>
+</nav> 
+  <% } %>
+<br>
+ 
+ <% if (bot.db.has('servers')) { %>
+          <% const sorted = Object.values(bot.db.fetch('servers').filter(s => s.serverID === server)) %>
+           
+           <div class="jumbotron bg-cover text-white" style="background-image: url(https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg);">
+    <div class="container py-5 text-center">
+      <img src="<%= sorted.map(item => item.serverIcon) %>" style="border-radius: 50%">
+      <h1 class="display-4 font-weight-bold"><%= sorted.map(item => item.serverName) %></h1>
+      <a class="btn btn-primary" href="/sunucu/<%=server%>/katil">Sunucuya Katıl</a>
+      <% if(req.user) { %>
+        <a class="btn btn-danger" href="/sunucu/<%=server%>/sikayet">Şikayet</a>
+        <% if(Object.values(bot.db.fetch('servers').filter(s => s.serverOwner === req.user.id))) { %>
+          <a class="btn btn-warning" href="/sunucu/<%=server%>/duzenle">Düzenle</a>
+        <% } %>
+        <a class="btn btn-success" href="/sunucu/<%=server%>/oy">Oy Ver</a>
+      <% } else { %>
+      
+      <% } %>
+    </div>
+</div>
+
+<br>
+
+<% let resim;
+      if(sorted.map(item => bot.users.cache.get(item.serverOwner).avatarURL({ dynamic: true }))) {
+        resim = sorted.map(item => bot.users.cache.get(item.serverOwner).avatarURL({ dynamic: true }))
+      } else {
+        resim = sorted.map(item => bot.users.cache.get(item.serverOwner).displayAvatarURL({ dynamic: true }))
+      }
+     %>
+ 
+<div class="enCokOy">
+      <div class="container">
+        <div class="row">
+        <div class="col-md-6 col-lg-4 pb-3">
+          <div class="sol-kutu">
+              <h1 style="font-size: 1.5rem;">Sunucu Bilgileri</h1>
+              <hr style="color: white; background-color: white;">
+              <p><i class="fas fa-user"></i> Üye Sayısı: <%= bot.guilds.cache.get(server).memberCount %></p>
+              <p><i class="far fa-calendar-plus"></i> Kuruluş: <%= sunucukurulum %></p>
+              <p><i class="fas fa-hashtag"></i> Kanal Sayısı: <%= bot.guilds.cache.get(server).channels.cache.size %></p>
+              <p><span class="rol" style="background-color: white"></span> Rol Sayısı: <%= bot.guilds.cache.get(server).roles.cache.size %></p>
+              <p><i class="fas fa-rocket ml-2"></i> Takviye Sayısı: <%= bot.guilds.cache.get(server).premiumSubscriptionCount || 0 %></p>
+              <hr style="color: white; background-color: white;">
+              <p><img src="<%= resim %>" style="border-radius: 50%; width: 30px; height: 30px;"> <%= sorted.map(item => bot.users.cache.get(item.serverOwner).username + "#" + bot.users.cache.get(item.serverOwner).discriminator)%></p>
+          </div>
+          <div class="sag-kutu">
+              <h1 style="font-size: 1.5rem;">Diğer Bilgiler</h1>
+              <hr style="color: white; background-color: white;">
+              <p><i class="fas fa-thumbs-up"></i> Oy Sayısı: <%= sorted.map(item => item.serverVote)%></p>
+              <p><i class="far fa-calendar-plus"></i> Rekor Ses Aktifliği: <%= sorted.map(item => item.serverMemberCount)%></p>
+              <p><i class="fas fa-hashtag"></i> Sunucu Kategorileri: <%= sorted.map(item => item.serverMemberCount)%></p>
+              <hr style="color: white; background-color: white;">
+              <p><i class="fas fa-volume-up"></i> Sesteki Üye Sayısı: <%= bot.guilds.cache.get(server).members.cache.filter(s => s.voice.channel && !s.user.bot).size || 0 %></p>
+              <p><i class="fas fa-volume-off" style="color: white;"></i> Kulaklığı Kapalı: <%= bot.guilds.cache.get(server).members.cache.filter(s => s.voice.channel && s.voice.deaf && !s.user.bot).size || 0 %></p>
+              <p><i class="fas fa-microphone-slash"></i> Mikrofonu Kapalı: <%= bot.guilds.cache.get(server).members.cache.filter(s => s.voice.channel && s.voice.mute&& !s.user.bot).size || 0 %></p>
+              <p><i class="fas fa-robot"></i> Bot Sayısı: <%= bot.guilds.cache.get(server).members.cache.filter(s => s.voice.channel && s.user.bot).size || 0 %></p>
+          </div>
+          <div class="orta-kutu-2">
+              <h1 style="font-size: 1.5rem; text-align: center">Yetkililer</h1>
+              <hr style="color: white; background-color: white;">
+              <% bot.guilds.cache.get(server).members.cache.filter(s => s.hasPermission("ADMINISTRATOR") && !s.user.bot).map(sa => { %>
+               <a class="btn btn-primary" href="#" style="margin-right: 10px; margin-top: 10px;"><img src="<%= sa.user.displayAvatarURL({ dynamic: true }) %>" style="width: 30px; height: 30px; border-radius: 50px; margin-right: 2px;"> <%=sa.user.username%>#<%=sa.user.discriminator%></a>
+              <% }) %>
+              <br><br>
+              <h1 style="font-size: 1.5rem; text-align: center">Roller</h1>
+              <hr style="color: white; background-color: white;">
+              <% bot.guilds.cache.get(server).roles.cache.filter(s => s.name !== "@everyone" && !s.bot).map(sa => { %>
+               <a class="btn btn-primary" href="#" style="margin-right: 10px; margin-top: 10px;"><span class="rol" style="background-color: white"></span> <%=sa.name%></a>
+              <% }) %>
+              <br><br>
+              <h1 style="font-size: 1.5rem; text-align: center">Kanallar</h1>
+              <hr style="color: white; background-color: white;">
+              <% bot.guilds.cache.get(server).channels.cache.map(sa => { %>
+               <a class="btn btn-primary" href="#" style="margin-right: 10px; margin-top: 10px;"><i class="fas fa-hashtag"></i> <%=sa.name%></a>
+              <% }) %>
+          </div>
+        </div> 
+      </div> 
+    </div>
+    
+  </div> 
+ <% } %>
+     
+      <style>
+          .sol-kutu {
+            width: 250px;
+            height: 400px auto;
+            margin: 10px;
+            padding: 25px;
+            border: 5px solid #141414;
+            background-color: #141414;
+          }
+
+          .sag-kutu {
+            width: 250px;
+            height: 400px auto;
+            margin: 10px;
+            padding: 25px;
+            border: 5px solid #141414;
+            background-color: #141414;
+            margin-left: 250%;
+            margin-top: -98%;
+          }
+
+          .orta-kutu {
+            width: 250px;
+            height: 400px auto;
+            margin: 10px;
+            padding: 25px;
+            border: 5px solid #141414;
+            background-color: #141414;
+            //margin-left: 250%;
+            margin-top: center;
+          }
+
+          .orta-kutu-2 {
+            width: 1280px;
+            height: 400px auto;
+            margin: 10px;
+            padding: 25px;
+            border: 5px solid #141414;
+            background-color: #141414;
+            margin-top: center;
+          }
+
+          .rol {
+            display: inline-block;
+            height: 0.8em;
+            width: 0.8em;
+            padding-right: 3px;
+            border-radius: 50%;
+          }
+      </style>
+
+<br><br><br><br><br><br>
+    <footer>
+        	<div class="footer-top" style="text-decoration: none;">
+		        <div class="container">
+		        	<div class="row">
+		        		<div class="col-md-3 footer-about wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+		        			<img class="logo-footer" style="border-radius: 50%;" src="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458" alt="logo-footer" data-at2x="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458">
+		        			<p>
+		        				WhYBoLu Server List TheClawNz#7987 tarafından sizler için yapılmıştır.
+		        			</p>
+	              </div>
+		        		<div class="col-md-4 offset-md-1 footer-contact wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+		        			<h3>İletişim</h3>
+		                	<p><i class="fab fa-discord"></i> https://discord.gg/AJ4fzBsuSq</p>
+		                	<p><i class="fas fa-phone"></i> Yakında</p>
+		                	<p><i class="fas fa-envelope"></i> Email: <a href="mailto:75theclawnz@gmail.com">75theclawnz@gmail.com</a></p>
+	                    </div>
+	                    <div class="col-md-4 footer-links wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                    	<div class="row">
+	                    		<div class="col">
+	                    			<h3>Bağlantılar</h3>
+	                    		</div>
+	                    	</div>
+	                    	<div class="row">
+	                    		<div class="col-md-6">
+	                    			<p><a class="scroll-link" href="/">Anasayfa</a></p>
+	                    			<p><a href="/siralama/ses">Ses Sıralaması</a></p>
+	                    			<p><a href="/siralama/oy">Oy Sıralaması</a></p>
+	                    			<p><a href="/sunucular">Sunucular</a></p>
+	                    		</div>
+	                    	</div>
+	                    </div>
+		            </div>
+		        </div>
+	        </div>
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<div class="row">
+	           			<div class="col-md-6 footer-copyright">
+	                    	© WhYBoLu Server List by <a href="https://discord.gg/AJ4fzBsuSq">TheClawNz#7987</a>
+	                    </div>
+	           			<div class="col-md-6 footer-social">
+							<a href="https://twitter.com/WhYBoLu"><i class="fab fa-twitter"></i></a>  
+							<a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="https://discord.gg/AJ4fzBsuSq"><i class="fab fa-discord"></i></a>
+	                    </div>
+	           		</div>
+	        	</div>
+	        </div>
+        </footer>
+
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html> 
