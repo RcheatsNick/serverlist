@@ -10,15 +10,15 @@ ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <cod
 
 # Yapılacaklar
 
-• Sunucu Düzenleme: ❌
-• Ses Sıralama: ❌
-• Profil Düzenleme: ❌
-• Sertifika Sistemi: ❌
+• Sunucu Düzenleme: ❌<br>
+• Ses Sıralama: ❌<br>
+• Profil Düzenleme: ❌<br>
+• Sertifika Sistemi: ❌<br>
 • Flash Messages: ❌
 
 # Proje Bilgileri
 
-• Yayınlanma Tarihi: 23.4.2021 - 01:33
-• Başlangıç Tarihi: 18.4.2021 - 20:00
-• Proje Sahibi: TheClawNz#7987
+• Yayınlanma Tarihi: 23.4.2021 - 01:33<br>
+• Başlangıç Tarihi: 18.4.2021 - 20:00<br>
+• Proje Sahibi: TheClawNz#7987<br>
 • Yardımcılar: NullMan#4807
