@@ -12,7 +12,7 @@ ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <cod
 
 • Sunucu Düzenleme: ❌<br>
 • Ses Sıralama: ❌<br>
-• Profil Düzenleme: ❌<br>
+• Profil Düzenleme: ✅<br>
 • Sertifika Sistemi: ❌<br>
 • Flash Messages: ❌
 
