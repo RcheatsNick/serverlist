@@ -86,6 +86,7 @@ module.exports = client => {
     }
     let millisJoined2 = new Date().getTime() - client.guilds.cache.get(server).createdAt
     let sunucukurulum = moment.duration(millisJoined2).format("Y [Yıl], M [Ay], H [Saat], m [Dakika], s [saniye]")
+
     yukle(res, req, "sunucu.ejs", { req, res, server, sunucukurulum })
   });
 
@@ -106,17 +107,84 @@ module.exports = client => {
 
   app.get("/profil/:userID", girisGerekli, (req, res) => {
     let user = client.users.cache.get(req.params.userID)
+    let ip = (typeof req.headers['x-forwarded-for'] === 'string' && req.headers['x-forwarded-for'].split(',').shift()) 
+
     if(!user) {
       return res.json({ error: "Bu kullanıcı bulunamadı!" })
     }
-    yukle(res, req, "profil.ejs", { req, res, user })
+
+    if(user.id !== req.user.id) {
+      return res.json({ error: "Başkasının profiline bakamazsın!" })
+    }
+
+    yukle(res, req, "profil.ejs", { req, res, user, ip })
   });
 
-  app.get("/siralama/oy", girisGerekli, (req, res) => {
+  app.get("/profil/:userID/duzenle", girisGerekli, (req, res) => {
+    let user = client.users.cache.get(req.params.userID)
+    let ip = (typeof req.headers['x-forwarded-for'] === 'string' && req.headers['x-forwarded-for'].split(',').shift()) 
+
+    if(!user) {
+      return res.json({ error: "Bu kullanıcı bulunamadı!" })
+    }
+
+    if(user.id !== req.user.id) {
+      return res.json({ error: "Başkasının profilini düzenleyemezsin!" })
+    }
+
+    yukle(res, req, "profil-düzenle.ejs", { req, res, user, ip })
+  });
+
+  app.post("/profil/:userID/duzenle", girisGerekli, (req, res) => {
+    let user = client.users.cache.get(req.params.userID)
+    
+    if(!user) {
+      return res.json({ error: "Bu kullanıcı bulunamadı!" })
+    }
+
+    if(user.id !== req.user.id) {
+      return res.json({ error: "Başkasının profilini düzenleyemezsin!" })
+    }
+
+    function ayarlarKaydetKullanici(kullanici, yeniAyar) {
+      if(yeniAyar['github']) {
+        db.set(`${kullanici.id}.github`, yeniAyar['github'])
+      }
+
+      if(yeniAyar['instagram']) {
+        db.set(`${kullanici.id}.instagram`, yeniAyar['instagram'])  
+      }
+
+      if(yeniAyar['twitter']) {
+        db.set(`${kullanici.id}.twitter`, yeniAyar['twitter'])  
+      }
+
+      if(yeniAyar['facebook']) {
+        db.set(`${kullanici.id}.facebook`, yeniAyar['facebook'])  
+      }
+
+      if(yeniAyar['website']) {
+        db.set(`${kullanici.id}.website`, yeniAyar['website'])  
+      }
+
+      if(yeniAyar['aciklama']) {
+        db.set(`${kullanici.id}.aciklama`, yeniAyar['aciklama'])  
+      }
+
+      if(yeniAyar['arkaplan']) {
+        db.set(`${kullanici.id}.arkaplan`, yeniAyar['arkaplan'])  
+      }
+    };
+
+    ayarlarKaydetKullanici(user, req.body)
+    yukle(res, req, "profil-düzenle.ejs", { req, res, user })
+  });
+
+  app.get("/siralama/oy", (req, res) => {
     yukle(res, req, "oy-siralama.ejs", { req, res })
   });
 
-  app.get("/siralama/ses", girisGerekli, (req, res) => {
+  app.get("/siralama/ses", (req, res) => {
     yukle(res, req, "ses-siralama.ejs", { req, res })
   });
    
