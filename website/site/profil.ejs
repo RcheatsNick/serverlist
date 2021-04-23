@@ -4,38 +4,42 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="shortcut icon" href="<%=bot.user.displayAvatarURL({ dynamic: true })%>">
   </head>
   <body style="background-color: #1c1c1c; color: #fff;"> 
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #141414">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">WhYBoLu Server List</a>
+    <a class="navbar-brand" href="/">
+    <img src="<%=bot.user.displayAvatarURL({ dynamic: true })%>" style="border-radius: 50%; height: 30px; width: 30px;">
+    WhYBoLu Server List
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item active">
-          <a class="nav-link" href="/">Anasayfa</a>
+          <a class="nav-link" href="/"><i class="fas fa-home"></i> Anasayfa</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/siralama/ses">Ses Sıralaması</a>
+          <a class="nav-link" href="/siralama/ses"><i class="fas fa-volume-up"></i> Ses Sıralaması</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/siralama/oy">Oy Sıralaması</a>
+          <a class="nav-link" href="/siralama/oy"><i class="fas fa-thumbs-up"></i> Oy Sıralaması</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/sunucular">Sunucular</a>
+          <a class="nav-link" href="/sunucular"><i class="fas fa-server"></i> Sunucular</a>
         </li>
       </ul>  
 <div class="dropdown">
   <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    <img src="https://cdn.discordapp.com/avatars/<%=user.id%>/<%=user.avatar%>" style="border-radius: 50%; height: 30px; width: 30px;">
     <%= user.username %>
   </button>
-  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-    <li><a class="dropdown-item active" href="/profil/<%=user.id%>">Profil</a></a></li>
-    <li><a class="dropdown-item" href="/cikis">Çıkış Yap</a></li>
+  <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+    <li><a class="dropdown-item active" href="/profil/<%=req.user.id%>"><i class="fas fa-user"></i> Profil</a></a></li>
     <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="#">???</a></li>
+    <li><a class="dropdown-item" href="/cikis"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
   </ul>
 </div>
     </div>
