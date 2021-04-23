@@ -215,6 +215,13 @@ module.exports = client => {
       res.redirect("/");
     }
   });
+
+  app.get("/cikis", function(req, res) {
+    req.session.destroy(() => {
+      req.logout();
+      res.redirect("/");
+    });
+  });
  
   console.log("[WebSite]: Aktif")
   app.listen(3000, console.log("[Port]: Aktif"))
