@@ -44,8 +44,14 @@
 </nav> 
  
 <br>
- 
-  <div class="jumbotron bg-cover text-white" style="background: url(https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F9485c23d-fdb1-44b1-a2cd-fc9db1b2290a.image.png?v=1613416963166)">
+  <% let arkaplan; 
+    if(bot.db.has(`${user.id}.arkaplan`) === true) {
+      arkaplan = bot.db.fetch(`${user.id}.arkaplan`)
+    } else {
+      arkaplan = "https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F9485c23d-fdb1-44b1-a2cd-fc9db1b2290a.image.png?v=1613416963166"
+    }
+  %>
+  <div class="jumbotron bg-cover text-white" style="background: url(<%=arkaplan%>)">
     <div class="container py-5 text-center">
     <% let resim;
       if(user.avatarURL()) {
@@ -54,10 +60,27 @@
         resim = user.displayAvatarURL({ dynamic: true })
       }
      %>
+    <% let rozet; %>
+    <% if(bot.db.has(`profil`) === true) { %>
+      <% let data = bot.db.get(`profil`).filter(s => s.member === req.user.id) %>
+      <% let data2 = Object.keys(data).map(_data => { %>
+        <% 
+        return {
+          rozet: (data[_data].rozet)
+        } %>
+      <% }) %>
       <img src="<%= resim %>" style="border-radius: 50%">
-      <h1 class="display-4 font-weight-bold">Selam <a href="/davet" style="text-decoration: none;"><%=user.username%></a></h1>
+      <h1 class="display-4 font-weight-bold">Selam <a href="/davet" style="text-decoration: none;"><%= user.username %></a> - 
+      <% data2.map(item => { %>
+      <img src="<%=item.rozet%>" style="width: 50px; height: 50px;"> 
+      <% }) %> 
+     </h1>
         <p class="mb-0">Bu kısımdan sunucularını bulabilir, istatistiklerine bakabilirsin!</p>
-        </a>
+        <br>
+        <a href="/profil/<%=user.id%>/duzenle" class="btn btn-primary">Düzenle</a>
+    <% } else { %>
+    
+    <% } %>
     </div>
 </div> 
 <br>
