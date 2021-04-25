@@ -121,13 +121,64 @@ module.exports = client => {
     let server = req.params.guildID
     let timeout = (db.fetch(`${req.user.id}.oySure`) - Date.now())
     let tarih = moment.duration(timeout).format("H [saat], m [dakika], s [saniye]")  
-    
+
     db.add(`${server}.serverVote`, 1)
     db.set(`${req.user.id}.oySure`, (Date.now() + 86400000))
+    
     setTimeout(() => {
       db.delete(`${req.user.id}.oySure`)
     }, 86400000)
     yukle(res, req, "oy.ejs", { req, res, server, tarih })
+  });
+
+  app.get("/sunucu/:guildID/duzenle", girisGerekli, (req, res) => {
+    let server = req.params.guildID
+    let sahip = req.user.id
+    
+    if(!db.has(server) === true) {
+      return res.json({ error: "Bu sunucu bulunamadı!" })
+    }
+
+    if(db.get(server).serverOwner !== sahip) {
+      return res.json({ error: "Bu sunucunun sahibi sen değilsin!" })
+    }
+
+    yukle(res, req, "sunucu-düzenle.ejs", { req, res, server })
+  });
+
+  app.post("/sunucu/:guildID/duzenle", girisGerekli, (req, res) => {
+    let server = req.params.guildID
+    let sahip = req.user.id
+    
+    if(!db.has(server) === true) {
+      return res.json({ error: "Bu sunucu bulunamadı!" })
+    }
+
+    if(db.get(server).serverOwner !== sahip) {
+      return res.json({ error: "Bu sunucunun sahibi sen değilsin!" })
+    }
+
+    function ayarlarKaydetKullanici(kullanici, yeniAyar) {
+      if(yeniAyar['kisa']) {
+        db.set(`${kullanici}.shortDescription`, yeniAyar['kisa'])
+      }
+
+      if(yeniAyar['uzun']) {
+        db.set(`${kullanici}.serverDescription`, yeniAyar['uzun'])  
+      }
+
+      if(yeniAyar['afis']) {
+        db.set(`${kullanici}.serverBackground`, yeniAyar['afis'])  
+      }
+
+      if(yeniAyar['yetkili']) {
+        db.set(`${kullanici}.staffRole`, yeniAyar['yetkili'])  
+      }
+    };
+
+    ayarlarKaydetKullanici(server, req.body)
+
+    yukle(res, req, "sunucu-düzenle.ejs", { req, res, server })
   });
 
   app.get("/profil/:userID", girisGerekli, (req, res) => {
