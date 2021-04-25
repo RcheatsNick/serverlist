@@ -17,9 +17,8 @@ client.on("ready", () => {
 })
 
 client.on("guildCreate", async(guild) => {
-  if(guild.channels) {
     guild.channels.cache.random().createInvite().then(invite => { 
-      db.push("servers", {
+      db.set(guild.id, {
         serverName: guild.name,
         serverIcon: guild.iconURL({ dynamic: true }),
         serverInviteURL: invite.url,
@@ -29,11 +28,12 @@ client.on("guildCreate", async(guild) => {
         serverOwner: guild.ownerID
       })
     })
-  }
 })
 
 client.on("guildDelete", async(guild) => {
-  db.set("servers", db.get("servers").filter(s => s.serverID !== guild.id))
+  if(db.has(guild.id) === true) {
+    db.delete(guild.id)
+  }
 })
 
 client.login("")
