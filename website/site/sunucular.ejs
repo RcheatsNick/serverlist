@@ -116,7 +116,15 @@
       return bot.db.fetch(`${b.id}.serverVote`) - bot.db.fetch(`${a.id}.serverVote`)
     }).map(sunucu => { %>
       <div class="card card-custom bg-dark border-dark border-0"> 
-                <div class="card-custom-img" style="background-image: url(https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg);"></div>
+                <%
+                let resim2;
+                if(bot.db.fetch(`${sunucu.id}.serverBackground`)) {
+                    resim2 = bot.db.fetch(`${sunucu.id}.serverBackground`)
+                  } else {
+                    resim2 = "https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg" 
+                  }
+                %>
+                <div class="card-custom-img" style="background-image: url(<%=resim2%>);"></div>
                 <div class="card-custom-avatar">
                   <% 
                   let resim;
@@ -131,7 +139,7 @@
                 <div class="card-body" style="overflow-y: auto">
             <h4 class="card-title"><%= bot.db.fetch(`${sunucu.id}.serverName`) %></h4>
             <div class="card-vote"></i> <p><%= bot.db.fetch(`${sunucu.id}.serverVote`) %></p></div>
-            <p class="card-text"><%= bot.db.fetch(`${sunucu.id}.serverDescription`) || "Ayarlanmamış" %></p>
+            <p class="card-text"><%= bot.db.fetch(`${sunucu.id}.shortDescription`) || "Ayarlanmamış" %></p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit; text-align: center">
             <a href="/sunucu/<%= bot.db.fetch(`${sunucu.id}.serverID`) %>" class="btn btn-primary">Bilgiler</a>
