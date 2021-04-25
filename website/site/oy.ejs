@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <title>WhYBoLu Server List</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="shortcut icon" href="<%=bot.user.displayAvatarURL({ dynamic: true })%>">
+  </head>
+  <body style="background-color: #1c1c1c; color: #fff;"> 
+  <% if(req.user) { %>
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #141414">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+    <img src="<%=bot.user.displayAvatarURL({ dynamic: true })%>" style="border-radius: 50%; height: 30px; width: 30px;">
+    WhYBoLu Server List
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/"><i class="fas fa-home"></i> Anasayfa</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/ses"><i class="fas fa-volume-up"></i> Ses Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/oy"><i class="fas fa-thumbs-up"></i> Oy Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sunucular"><i class="fas fa-server"></i> Sunucular</a>
+        </li>
+      </ul>  
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    <img src="https://cdn.discordapp.com/avatars/<%=user.id%>/<%=user.avatar%>" style="border-radius: 50%; height: 30px; width: 30px;">
+    <%= user.username %>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+    <li><a class="dropdown-item active" href="/profil/<%=req.user.id%>"><i class="fas fa-user"></i> Profil</a></a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="/cikis"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
+  </ul>
+</div>
+    </div>
+
+  </div>
+</nav> 
+ 
+  <% } else { %>
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #141414">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+    <img src="<%=bot.user.displayAvatarURL({ dynamic: true })%>" style="border-radius: 50%; height: 30px; width: 30px;">
+    WhYBoLu Server List
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/"><i class="fas fa-home"></i> Anasayfa</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/ses"><i class="fas fa-volume-up"></i> Ses Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/oy"><i class="fas fa-thumbs-up"></i> Oy Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sunucular"><i class="fas fa-server"></i> Sunucular</a>
+        </li>
+      </ul>  
+      <a class="btn btn-outline-success" href="/giris"><i class="fas fa-sign-in-alt"></i> Giriş</a>
+    </div>
+  </div>
+</nav> 
+  <% } %>
+<br><br><br><br>
+
+  <form method="POST">
+ <div class="container" style="align-items: center; text-align: center;">
+    <div class="main-body">
+            <h1><a href="/sunucu/<%=server%>" style="text-decoration: none;"><%=bot.guilds.cache.get(server).name%></a> Adlı sunucuya oy vermek üzeresiniz!</h1> 
+          <% if(bot.db.fetch(`${req.user.id}.oySure`) > Date.now()) { %>
+            <p id="oy2">Dostum oy vermek için <%=tarih%> boyunca beklemelisin!</p>
+          <% } else { %>
+            <button id="oy" name="oy" for="oy" class="btn btn-primary" type="submit">Oy Ver!</button>
+          <% } %>
+            </div>
+          </div>
+        </div>
+    </div>
+ </form>
+ 
+<br><br><br><br><br><br>
+    <footer>
+        	<div class="footer-top" style="text-decoration: none;">
+		        <div class="container">
+		        	<div class="row">
+		        		<div class="col-md-3 footer-about wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+		        			<img class="logo-footer" style="border-radius: 50%;" src="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458" alt="logo-footer" data-at2x="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458">
+		        			<p>
+		        				WhYBoLu Server List TheClawNz#7987 tarafından sizler için yapılmıştır.
+		        			</p>
+	              </div>
+		        		<div class="col-md-4 offset-md-1 footer-contact wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+		        			<h3>İletişim</h3>
+		                	<p><i class="fab fa-discord"></i> https://discord.gg/AJ4fzBsuSq</p>
+		                	<p><i class="fas fa-phone"></i> Yakında</p>
+		                	<p><i class="fas fa-envelope"></i> Email: <a href="mailto:75theclawnz@gmail.com">75theclawnz@gmail.com</a></p>
+	                    </div>
+	                    <div class="col-md-4 footer-links wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                    	<div class="row">
+	                    		<div class="col">
+	                    			<h3>Bağlantılar</h3>
+	                    		</div>
+	                    	</div>
+	                    	<div class="row">
+	                    		<div class="col-md-6">
+	                    			<p><a class="scroll-link" href="/">Anasayfa</a></p>
+	                    			<p><a href="/siralama/ses">Ses Sıralaması</a></p>
+	                    			<p><a href="/siralama/oy">Oy Sıralaması</a></p>
+	                    			<p><a href="/sunucular">Sunucular</a></p>
+	                    		</div>
+	                    	</div>
+	                    </div>
+		            </div>
+		        </div>
+	        </div>
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<div class="row">
+	           			<div class="col-md-6 footer-copyright">
+	                    	© WhYBoLu Server List by <a href="https://discord.gg/AJ4fzBsuSq">TheClawNz#7987</a>
+	                    </div>
+	           			<div class="col-md-6 footer-social">
+							<a href="https://twitter.com/WhYBoLu"><i class="fab fa-twitter"></i></a>  
+							<a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="https://discord.gg/AJ4fzBsuSq"><i class="fab fa-discord"></i></a>
+	                    </div>
+	           		</div>
+	        	</div>
+	        </div>
+        </footer>
+
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html> 
