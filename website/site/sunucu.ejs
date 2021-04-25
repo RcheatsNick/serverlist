@@ -80,17 +80,17 @@
   <% } %>
 <br>
  
- <% if (bot.db.has('servers')) { %>
-          <% const sorted = Object.values(bot.db.fetch('servers').filter(s => s.serverID === server)) %>
+ <% if (bot.db.has(server)) { %>
+          <% const sorted = bot.db.fetch(server) %>
            
            <div class="jumbotron bg-cover text-white" style="background-image: url(https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg);">
     <div class="container py-5 text-center">
-      <img src="<%= sorted.map(item => item.serverIcon) %>" style="border-radius: 50%">
-      <h1 class="display-4 font-weight-bold"><%= sorted.map(item => item.serverName) %></h1>
+      <img src="<%= sorted.serverIcon %>" style="border-radius: 50%">
+      <h1 class="display-4 font-weight-bold"><%= sorted.serverName %></h1>
       <a class="btn btn-primary" href="/sunucu/<%=server%>/katil"><i class="fas fa-sign-out-alt"></i> Sunucuya Katıl</a>
       <% if(req.user) { %>
         <a class="btn btn-danger" href="/sunucu/<%=server%>/sikayet"><i class="fas fa-flag"></i> Şikayet</a>
-        <% if(Object.values(bot.db.fetch('servers').filter(s => s.serverOwner === req.user.id))) { %>
+        <% if(bot.db.fetch(server).serverOwner === req.user.id) { %>
           <a class="btn btn-warning" href="/sunucu/<%=server%>/duzenle"><i class="fas fa-edit"></i> Düzenle</a>
         <% } %>
         <a class="btn btn-success" href="/sunucu/<%=server%>/oy"><i class="fas fa-thumbs-up"></i> Oy Ver</a>
@@ -103,10 +103,10 @@
 <br>
 
 <% let resim;
-      if(sorted.map(item => bot.users.cache.get(item.serverOwner).avatarURL({ dynamic: true }))) {
-        resim = sorted.map(item => bot.users.cache.get(item.serverOwner).avatarURL({ dynamic: true }))
+      if(bot.users.cache.get(sorted.serverOwner)) {
+        resim = bot.users.cache.get(sorted.serverOwner).avatarURL({ dynamic: true })
       } else {
-        resim = sorted.map(item => bot.users.cache.get(item.serverOwner).displayAvatarURL({ dynamic: true }))
+        resim = bot.users.cache.get(sorted.serverOwner).displayAvatarURL({ dynamic: true })
       }
      %>
  
@@ -123,14 +123,14 @@
               <p><span class="rol" style="background-color: white"></span> Rol Sayısı: <%= bot.guilds.cache.get(server).roles.cache.size %></p>
               <p><i class="fas fa-rocket ml-2"></i> Takviye Sayısı: <%= bot.guilds.cache.get(server).premiumSubscriptionCount || 0 %></p>
               <hr style="color: white; background-color: white;">
-              <p><img src="<%= resim %>" style="border-radius: 50%; width: 30px; height: 30px;"> <%= sorted.map(item => bot.users.cache.get(item.serverOwner).username + "#" + bot.users.cache.get(item.serverOwner).discriminator)%></p>
+              <p><img src="<%= resim %>" style="border-radius: 50%; width: 30px; height: 30px;"> <%= bot.users.cache.get(sorted.serverOwner).tag %></p>
           </div>
           <div class="sag-kutu">
               <h1 style="font-size: 1.5rem;">Diğer Bilgiler</h1>
               <hr style="color: white; background-color: white;">
-              <p><i class="fas fa-thumbs-up"></i> Oy Sayısı: <%= sorted.map(item => item.serverVote)%></p>
-              <p><i class="far fa-calendar-plus"></i> Rekor Ses Aktifliği: <%= sorted.map(item => item.serverMemberCount)%></p>
-              <p><i class="fas fa-hashtag"></i> Sunucu Kategorileri: <%= sorted.map(item => item.serverMemberCount)%></p>
+              <p><i class="fas fa-thumbs-up"></i> Oy Sayısı: <%= sorted.serverVote %></p>
+              <p><i class="far fa-calendar-plus"></i> Rekor Ses Aktifliği: 0</p>
+              <p><i class="fas fa-hashtag"></i> Sunucu Kategorileri: 0</p>
               <hr style="color: white; background-color: white;">
               <p><i class="fas fa-volume-up"></i> Sesteki Üye Sayısı: <%= bot.guilds.cache.get(server).members.cache.filter(s => s.voice.channel && !s.user.bot).size || 0 %></p>
               <p><i class="fas fa-volume-off" style="color: white;"></i> Kulaklığı Kapalı: <%= bot.guilds.cache.get(server).members.cache.filter(s => s.voice.channel && s.voice.deaf && !s.user.bot).size || 0 %></p>
@@ -140,10 +140,7 @@
           <div class="orta-kutu-3">
               <h1 style="font-size: 1.5rem; text-align: center">Sunucu Açıklaması</h1>
               <hr style="color: white; background-color: white;">
-              <%= sorted.map(item => {
-                return item.serverDescription || "Ayarlanmamış"
-              }) %>
-    
+              <%= sorted.serverDescription || "Ayarlanmamış" %>
           </div>
           <br>
           <div class="orta-kutu-2">
