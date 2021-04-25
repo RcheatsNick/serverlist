@@ -13,8 +13,10 @@ ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <cod
 • Sunucu Düzenleme: ❌<br>
 • Ses Sıralama: ❌<br>
 • Profil Düzenleme: ✅<br>
+• 404 Sayfası: ✅<br>
 • Sertifika Sistemi: ❌<br>
-• Flash Messages: ❌
+• Flash Messages: ❌<br>
+• En Son Oy Verilen Sunucular: ❌
 
 # Proje Bilgileri
 
