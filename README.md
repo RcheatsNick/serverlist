@@ -10,7 +10,7 @@ ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <cod
 
 # Yapılacaklar
 
-• Sunucu Düzenleme: ❌<br>
+• Sunucu Düzenleme: ✅<br>
 • Ses Sıralama: ❌<br>
 • Profil Düzenleme: ✅<br>
 • 404 Sayfası: ✅<br>
