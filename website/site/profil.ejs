@@ -88,7 +88,10 @@
     </div>
 </div> 
 <br>
+
+
 <div class="enCokOy">
+
       <h1 style="text-align: center"><img src="https://cdn.discordapp.com/emojis/782608516170121247.png?v=1" style="width: 45px; height: 45px;"> | Sana Ait Sunucular</h1>
       <br><br><br>
       <div class="container">
@@ -98,7 +101,15 @@
       return bot.db.fetch(`${b.id}.serverVote`) - bot.db.fetch(`${a.id}.serverVote`)
     }).splice(0, 6).map(sunucu => { %>
       <div class="card card-custom bg-dark border-dark border-0"> 
-                <div class="card-custom-img" style="background-image: url(https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg);"></div>
+                <%
+                let resim2;
+                if(bot.db.fetch(`${sunucu.id}.serverBackground`)) {
+                    resim2 = bot.db.fetch(`${sunucu.id}.serverBackground`)
+                  } else {
+                    resim2 = "https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg" 
+                  }
+                %>
+                <div class="card-custom-img" style="background-image: url(<%=resim2%>);"></div>
                 <div class="card-custom-avatar">
                   <% 
                   let resim;
@@ -113,7 +124,7 @@
                 <div class="card-body" style="overflow-y: auto">
             <h4 class="card-title"><%= bot.db.fetch(`${sunucu.id}.serverName`) %></h4>
             <div class="card-vote"></i> <p><%= bot.db.fetch(`${sunucu.id}.serverVote`) %></p></div>
-            <p class="card-text"><%= bot.db.fetch(`${sunucu.id}.serverDescription`) || "Ayarlanmamış" %></p>
+            <p class="card-text"><%= bot.db.fetch(`${sunucu.id}.shortDescription`) || "Ayarlanmamış" %></p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit; text-align: center">
             <a href="/sunucu/<%= bot.db.fetch(`${sunucu.id}.serverID`) %>" class="btn btn-primary">Bilgiler</a>
@@ -128,8 +139,6 @@
     </div>
     </div>
     </div>
-         
-    
   </div> 
 
 <br><br><br><br><br><br>
@@ -182,7 +191,6 @@
 	        	</div>
 	        </div>
         </footer>
-
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
   </body>
