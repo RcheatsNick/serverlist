@@ -1,0 +1,241 @@
+<html>
+  <head>
+    <title>WhYBoLu Server List</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/test.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="shortcut icon" href="<%=bot.user.displayAvatarURL({ dynamic: true })%>">
+  </head>
+  <body style="background-color: #1c1c1c; color: #fff;">
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #141414">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+    <img src="<%=bot.user.displayAvatarURL({ dynamic: true })%>" style="border-radius: 50%; height: 30px; width: 30px;">
+    WhYBoLu Server List
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/"><i class="fas fa-home"></i> Anasayfa</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/ses"><i class="fas fa-volume-up"></i> Ses Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/siralama/oy"><i class="fas fa-thumbs-up"></i> Oy Sıralaması</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sunucular"><i class="fas fa-server"></i> Sunucular</a>
+        </li>
+      </ul>  
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    <img src="https://cdn.discordapp.com/avatars/<%=user.id%>/<%=user.avatar%>" style="border-radius: 50%; height: 30px; width: 30px;">
+    <%= user.username %>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+    <li><a class="dropdown-item active" href="/profil/<%=req.user.id%>"><i class="fas fa-user"></i> Profil</a></a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="/cikis"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
+  </ul>
+</div>
+    </div>
+
+  </div>
+</nav> 
+
+<br>
+
+<div class="jumbotron bg-cover text-white">
+    <div class="container py-5 text-center">
+      <img src="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458" style="border-radius: 50%">
+      <h1 class="display-4 font-weight-bold">Selam <a href="/davet" style="text-decoration: none;"><%=req.user.username%></a></h1>
+        <p class="mb-0"><strong><%= bot.guilds.cache.get(server).name %></strong> Adlı sunucunuzu buradan düzenleyebilirsiniz</p>
+    </div>
+</div>
+<br><br><br>
+<form method="POST">
+      <div class="main-content">
+    <!-- Top navbar -->
+      
+     
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+          <div class="card card-profile shadow bg-dark">
+            <div class="row justify-content-center">
+              <div class="col-lg-3 order-lg-2">
+                <div class="card-profile-image">
+                  <a href="#">
+                    <img src="<%= bot.guilds.cache.get(server).iconURL({ dynamic: true }) %>" class="rounded-circle">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-sm btn-primary mr-4">Kaydet</button>
+                <a href="/sunucu/<%=server%>/sil" class="btn btn-sm btn-danger float-right">Sil</a>
+              </div>
+            </div>
+            <div class="card-body pt-0 pt-md-4">
+            <div class="text-center">
+                <h3>
+                  <%= bot.guilds.cache.get(server).name %>
+                </h3>
+                <div class="h5 font-weight-300 text-white">
+                  <i class="ni location_pin mr-2"></i><%= bot.db.get(server).certificate ? "Sertifikalı" : "Normal Sunucu" %>
+                </div>
+                <hr class="my-4">
+                <p><%= bot.db.get(server).serverDescription || "Ayarlanmamış" %></p>
+              </div>
+              <div class="row ">
+                <div class="col">
+                  <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                    <div>
+                      <span class="heading"><%= bot.guilds.cache.get(server).memberCount %></span>
+                      <span class="description">Üye</span>
+                    </div>
+                    <div>
+                      <span class="heading"><%= bot.guilds.cache.get(server).premiumSubscriptionCount || 0 %></span>
+                      <span class="description">Boost Sayısı</span>
+                    </div>
+                    <div>
+                      <span class="heading">Rol: <%= bot.guilds.cache.get(server).roles.cache.size || 0 %> | Kanal: <%= bot.guilds.cache.get(server).channels.cache.size || 0 %></span>
+                      <span class="description">Rol & Kanal Sayısı</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-8 order-xl-1">
+          <div class="card bg-secondary shadow bg-dark">
+            <div class="card-header bg-dark border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0 text-white">Sunucu Ayarları</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form>
+                <h6 class="heading-small text-muted mb-4">Genel Ayarlar</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="kisa">Kısa Açıklama</label>
+                        <input type="text" id="kisa" name="kisa" class="form-control form-control-alternative" placeholder="Sunucunuzun Kısa Açıklaması">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="yetkili">Yetkili Rolü</label>
+                        <input type="number" id="yetkili" name="yetkili" class="form-control form-control-alternative" placeholder="9136762351443637556">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="ozel">Özel URL</label>
+                        <% if(bot.db.has(`${server}.certificate`) === true) { %>
+                            <input type="url" id="ozel" name="ozel" class="form-control form-control-alternative" placeholder="https://discord.gg/whybolu">
+                        <% } else { %>
+                            <input type="url" id="ozel" name="ozel" class="form-control form-control-alternative" placeholder="Sunucunuz sertifikalı değil!" disabled>
+                        <% } %>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="afis">Afiş URL</label>
+                        <% if(bot.db.has(`${server}.certificate`) === true) { %>
+                            <input type="url" id="afis" name="afis" class="form-control form-control-alternative" placeholder="https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg">
+                        <% } else { %>
+                            <input type="url" id="afis" name="afis" class="form-control form-control-alternative" placeholder="Sunucunuz sertifikalı değil!" disabled>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4">
+                <!-- Description -->
+                <h6 class="heading-small text-muted mb-4">Uzun Açıklama</h6>
+                <div class="pl-lg-4">
+                  <div class="form-group focused">
+                    <label for="uzun">Uzun Açıklama</label>
+                    <textarea type="text" id="uzun" name="uzun" rows="4" class="form-control form-control-alternative" placeholder="Bu kısma sunucunuzun uzun açıklamasını yazınız."></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+  </div> 
+  </form>
+       
+<br><br><br><br><br><br>
+    <footer>
+        	<div class="footer-top" style="text-decoration: none;">
+		        <div class="container">
+		        	<div class="row">
+		        		<div class="col-md-3 footer-about wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+		        			<img class="logo-footer" style="border-radius: 50%;" src="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458" alt="logo-footer" data-at2x="https://cdn.glitch.com/31e82d97-3c22-493e-bcbb-831881d6650e%2F4dfc799330deb83f66d2af2958f69e4a.webp?v=1613414272458">
+		        			<p>
+		        				WhYBoLu Server List TheClawNz#7987 tarafından sizler için yapılmıştır.
+		        			</p>
+	              </div>
+		        		<div class="col-md-4 offset-md-1 footer-contact wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+		        			<h3>İletişim</h3>
+		                	<p><i class="fab fa-discord"></i> https://discord.gg/AJ4fzBsuSq</p>
+		                	<p><i class="fas fa-phone"></i> Yakında</p>
+		                	<p><i class="fas fa-envelope"></i> Email: <a href="mailto:75theclawnz@gmail.com">75theclawnz@gmail.com</a></p>
+	                    </div>
+	                    <div class="col-md-4 footer-links wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                    	<div class="row">
+	                    		<div class="col">
+	                    			<h3>Bağlantılar</h3>
+	                    		</div>
+	                    	</div>
+	                    	<div class="row">
+	                    		<div class="col-md-6">
+	                    			<p><a class="scroll-link" href="/">Anasayfa</a></p>
+	                    			<p><a href="/siralama/ses">Ses Sıralaması</a></p>
+	                    			<p><a href="/siralama/oy">Oy Sıralaması</a></p>
+	                    			<p><a href="/sunucular">Sunucular</a></p>
+	                    		</div>
+	                    	</div>
+	                    </div>
+		            </div>
+		        </div>
+	        </div>
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<div class="row">
+	           			<div class="col-md-6 footer-copyright">
+	                    	© WhYBoLu Server List by <a href="https://discord.gg/AJ4fzBsuSq">TheClawNz#7987</a>
+	                    </div>
+	           			<div class="col-md-6 footer-social">
+							<a href="https://twitter.com/WhYBoLu"><i class="fab fa-twitter"></i></a>  
+							<a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="https://discord.gg/AJ4fzBsuSq"><i class="fab fa-discord"></i></a>
+	                    </div>
+	           		</div>
+	        	</div>
+	        </div>
+        </footer>
+
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>  
