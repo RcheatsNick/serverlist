@@ -14,6 +14,7 @@ ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <cod
 • Ses Sıralama: ❌<br>
 • Profil Düzenleme: ✅<br>
 • 404 Sayfası: ✅<br>
+• Oy Sistemi: ✅<br>
 • Sertifika Sistemi: ❌<br>
 • Flash Messages: ❌<br>
 • En Son Oy Verilen Sunucular: ❌
