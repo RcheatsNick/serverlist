@@ -16,8 +16,7 @@ ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <cod
 • 404 Sayfası: ✅<br>
 • Oy Sistemi: ✅<br>
 • Sertifika Sistemi: ❌<br>
-• Flash Messages: ❌<br>
-• En Son Oy Verilen Sunucular: ❌
+• Flash Messages: ❌
 
 # Proje Bilgileri
 
