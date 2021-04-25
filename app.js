@@ -81,7 +81,7 @@ module.exports = client => {
 
   app.get("/sunucu/:guildID", (req, res) => {
     let server = req.params.guildID
-    if(!db.get("servers").find(r => r.serverID === server)) {
+    if(!db.has(server) === true) {
       return res.json({ error: "Bu sunucu bulunamadı!" })
     }
     let millisJoined2 = new Date().getTime() - client.guilds.cache.get(server).createdAt
@@ -92,17 +92,42 @@ module.exports = client => {
 
   app.get("/sunucu/:guildID/katil", (req, res) => {
     let server = req.params.guildID
-    if(!db.get("servers").find(r => r.serverID === server)) {
+    if(!db.has(server) === true) {
       return res.json({ error: "Bu sunucu bulunamadı!" })
     }
 
-    let data = db.get("servers").find(r => r.serverID === server)
+    let data = db.get(server)
     
     if(data.serverInviteURL == null) {
       return res.json({ error: "Bu sunucunun davet linkini bulamadım!" })
     }
 
     res.redirect(data.serverInviteURL)
+  });
+
+  app.get("/sunucu/:guildID/oy", girisGerekli, (req, res) => {
+    let server = req.params.guildID
+    let timeout = (db.fetch(`${req.user.id}.oySure`) - Date.now())
+    let tarih = moment.duration(timeout).format("H [saat], m [dakika], s [saniye]")  
+
+    if(!db.has(server) === true) {
+      return res.json({ error: "Bu sunucu bulunamadı!" })
+    }
+
+    yukle(res, req, "oy.ejs", { req, res, server, tarih })
+  });
+
+  app.post("/sunucu/:guildID/oy", girisGerekli, (req, res) => {
+    let server = req.params.guildID
+    let timeout = (db.fetch(`${req.user.id}.oySure`) - Date.now())
+    let tarih = moment.duration(timeout).format("H [saat], m [dakika], s [saniye]")  
+    
+    db.add(`${server}.serverVote`, 1)
+    db.set(`${req.user.id}.oySure`, (Date.now() + 86400000))
+    setTimeout(() => {
+      db.delete(`${req.user.id}.oySure`)
+    }, 86400000)
+    yukle(res, req, "oy.ejs", { req, res, server, tarih })
   });
 
   app.get("/profil/:userID", girisGerekli, (req, res) => {
@@ -221,6 +246,11 @@ module.exports = client => {
       req.logout();
       res.redirect("/");
     });
+  });
+
+  app.use(function(req, res, next) {
+    res.status(404);
+    yukle(res, req, "404.ejs", { req, res })
   });
  
   console.log("[WebSite]: Aktif")
