@@ -108,49 +108,44 @@
  
 
     <div class="enCokOy">
-      <h1 style="text-align: center"><img src="https://cdn.discordapp.com/emojis/782608516170121247.png?v=1" style="width: 45px; height: 45px;"> | En Çok Oy Alan Sunucular</h1>
+      <h1 style="text-align: center"><img src="https://cdn.discordapp.com/emojis/782608516170121247.png?v=1" style="width: 45px; height: 45px;"> | En Çok Oy Almış Sunucular</h1>
       <br><br><br>
       <div class="container">
         <div class="row" style="margin: auto; margin-left: auto; margin-right: auto; float: left; display: inline-block;">
         <div class="col-md-6 col-lg-4 pb-3">
-          <% if (bot.db.has('servers')) { %>
-          <% const sorted = Object.keys(bot.db.fetch('servers')).sort((a, b) => { return (bot.db.fetch(`servers.${b}.serverVote`) || 0) - (bot.db.fetch(`servers.${a}.serverVote`) || 0) }) %>
-          <% const top = sorted.splice(0, bot.db.fetch('servers').length) %>
-          <% const map = top.map(x=>x) %>
-	        <% for(var i = 0; i < Object.keys(bot.db.fetch('servers')).length; i++) { %>
-          <% let idd = map[i] %>
-          <% if(bot.db.has(`servers.${idd}`) === true) { %>
-                <div class="card card-custom bg-dark border-dark border-0"> 
+    <% bot.guilds.cache.filter(s => bot.db.has(`${s.id}.serverName`) === true).array().sort((a, b) => {
+      return bot.db.fetch(`${b.id}.serverVote`) - bot.db.fetch(`${a.id}.serverVote`)
+    }).map(sunucu => { %>
+      <div class="card card-custom bg-dark border-dark border-0"> 
                 <div class="card-custom-img" style="background-image: url(https://images.wallpaperscraft.com/image/river_forest_sunset_144468_3840x2160.jpg);"></div>
                 <div class="card-custom-avatar">
                   <% 
                   let resim;
-                  if(bot.db.fetch(`servers.${idd}.serverIcon`)) {
-                    resim = bot.db.fetch(`servers.${idd}.serverIcon`)
+                  if(bot.db.fetch(`${sunucu.id}.serverIcon`)) {
+                    resim = bot.db.fetch(`${sunucu.id}.serverIcon`)
                   } else {
-                    resim = "https://blog.logomyway.com/wp-content/uploads/2020/12/discord-mascot.png" 
+                    resim = "https://images-ext-1.discordapp.net/external/9i7pqUh3tNwm0sG4Pg2MX_8WqKtSqBvZyR44NLWtsBQ/https/blog.logomyway.com/wp-content/uploads/2020/12/discord-mascot.png" 
                   }
                   %>
                 <img class="img-fluid" src="<%=resim%>" alt="Avatar" />
                 </div>
                 <div class="card-body" style="overflow-y: auto">
-            <h4 class="card-title"><%= bot.db.fetch(`servers.${idd}.serverName`) %></h4>
-            <div class="card-vote"></i> <p><%= bot.db.fetch(`servers.${idd}.serverVote`) %></p></div>
-            <p class="card-text">naber</p>
+            <h4 class="card-title"><%= bot.db.fetch(`${sunucu.id}.serverName`) %></h4>
+            <div class="card-vote"></i> <p><%= bot.db.fetch(`${sunucu.id}.serverVote`) %></p></div>
+            <p class="card-text"><%= bot.db.fetch(`${sunucu.id}.serverDescription`) || "Ayarlanmamış" %></p>
           </div>
           <div class="card-footer" style="background: inherit; border-color: inherit; text-align: center">
-            <a href="/sunucu/<%= bot.db.fetch(`servers.${idd}.serverID`) %>" class="btn btn-primary">Bilgiler</a>
-            <a href="/sunucu/<%= bot.db.fetch(`servers.${idd}.serverID`) %>/katil" class="btn btn-outline-primary">Sunucuya Katıl</a>
+            <a href="/sunucu/<%= bot.db.fetch(`${sunucu.id}.serverID`) %>" class="btn btn-primary">Bilgiler</a>
+            <a href="/sunucu/<%= bot.db.fetch(`${sunucu.id}.serverID`) %>/katil" class="btn btn-outline-primary">Sunucuya Katıl</a>
           </div>
 
                 </div>
                 </div>
                 </div>
-          <% } %>
-          <% } %>
-          <% } %>
-        </div> 
-      </div> 
+    <% }) %>
+    </div>
+    </div>
+    </div>
     </div>
          
     
