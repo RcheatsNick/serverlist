@@ -19,6 +19,7 @@ ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <cod
 • Oy Sistemi: ✅<br>
 • Sertifika Sistemi: ✅<br>
 • Yorum Sistemi: ❌<br>
+• Karaliste Sistemi: ❌<br>
 • Flash Messages: ❌
 
 # Proje Bilgileri
