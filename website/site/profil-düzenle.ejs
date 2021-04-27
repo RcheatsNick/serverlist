@@ -38,6 +38,9 @@
   </button>
   <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
     <li><a class="dropdown-item active" href="/profil/<%=req.user.id%>"><i class="fas fa-user"></i> Profil</a></a></li>
+    <% if(bot.db.get("staffs").find(s => s.staff === req.user.id)) { %>
+    <li><a class="dropdown-item" href="/admin"><i class="fas fa-unlock"></i> Admin Panel</a></a></li>
+    <% } %>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="/cikis"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
   </ul>
