@@ -12,12 +12,12 @@ ardından <code>app.js</code> adlı dosyaya girip en üst kısımda bulunan <cod
 
 • Sunucu Düzenleme: ✅<br>
 • Ses Sıralama: ❌<br>
-• Admin Panel: ❌<br>
+• Admin Panel: ✅<br>
 • Şikayet Sistemi: ❌<br>
 • Profil Düzenleme: ✅<br>
 • 404 Sayfası: ✅<br>
 • Oy Sistemi: ✅<br>
-• Sertifika Sistemi: ❌<br>
+• Sertifika Sistemi: ✅<br>
 • Yorum Sistemi: ❌<br>
 • Flash Messages: ❌
 
