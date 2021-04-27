@@ -102,7 +102,11 @@ module.exports = client => {
       return res.json({ error: "Bu sunucunun davet linkini bulamadım!" })
     }
 
-    res.redirect(data.serverInviteURL)
+    if(data.serverInviteVanityURL !== null) {
+      res.redirect(data.serverInviteVanityURL)
+    } else {
+      res.redirect(data.serverInviteURL)
+    }
   });
 
   app.get("/sunucu/:guildID/oy", girisGerekli, (req, res) => {
@@ -262,6 +266,130 @@ module.exports = client => {
 
   app.get("/siralama/ses", (req, res) => {
     yukle(res, req, "ses-siralama.ejs", { req, res })
+  });
+
+  app.get("/admin", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+    
+    yukle(res, req, "admin.ejs", { req, res })
+  });
+
+  app.get("/admin/yetkili/ekle", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    yukle(res, req, "admin-yetkili-ekle.ejs", { req, res })
+  });
+
+  app.post("/admin/yetkili/ekle", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    if(req.body["yetkili"]) {
+      if(db.get("staffs").find(s => s.staff === req.body["yetkili"])) {
+        return res.json({ error: "Belirttiğiniz id zaten yetkili listesinde bulunuyor!" })
+      }
+
+      db.push(`staffs`, { staff: req.body["yetkili"] })
+    }
+
+    yukle(res, req, "admin-yetkili-ekle.ejs", { req, res })
+  });
+
+  app.get("/admin/yetkili/kaldir", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    yukle(res, req, "admin-yetkili-kaldır.ejs", { req, res })
+  });
+
+  app.post("/admin/yetkili/kaldir", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    if(req.body["yetkili"]) {
+      if(!db.get("staffs").find(s => s.staff === req.body["yetkili"])) {
+        return res.json({ error: "Belirttiğiniz id yetkili listesinde bulunmuyor!" })
+      }
+
+      if(db.get("staffs").length == 1) {
+        db.delete("staffs")
+      } else {
+        db.set(`staffs`, db.get("staffs").filter(s => s.staff !== req.body["yetkili"]))
+      }
+    }
+
+    yukle(res, req, "admin-yetkili-kaldır.ejs", { req, res })
+  });
+
+  app.get("/admin/yetkili/liste", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    yukle(res, req, "admin-yetkili-liste.ejs", { req, res })
+  });
+
+  app.get("/admin/sertifika/ver", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    yukle(res, req, "admin-sertifika-ver.ejs", { req, res })
+  });
+
+  app.post("/admin/sertifika/ver", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    if(req.body["sertifika"]) {
+      if(db.get(`${req.body["sertifika"]}.certificate`) === true) {
+        return res.json({ error: "Belirttiğiniz sunucu zaten sertifikalı!" })
+      }
+
+      db.set(`${req.body["sertifika"]}.certificate`, true)
+    }
+
+    yukle(res, req, "admin-sertifika-ver.ejs", { req, res })
+  });
+
+  app.get("/admin/sertifika/kaldir", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    yukle(res, req, "admin-sertifika-kaldır.ejs", { req, res })
+  });
+
+  app.post("/admin/sertifika/kaldir", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+
+    if(req.body["sertifika"]) {
+      if(db.get(`${req.body["sertifika"]}.certificate`) === false) {
+        return res.json({ error: "Belirttiğiniz sunucunun sertifikası yok!" })
+      }
+
+      db.set(`${req.body["sertifika"]}.certificate`, false)
+    }
+
+    yukle(res, req, "admin-sertifika-kaldır.ejs", { req, res })
+  });
+
+  app.get("/admin/sikayet", girisGerekli, (req, res) => {
+    if(!db.get("staffs").find(s => s.staff === req.user.id)) {
+      return res.json({ error: "Sen yetkili değilsin!" })
+    }
+    
+    yukle(res, req, "admin-şikayet.ejs", { req, res })
   });
    
   app.get("/davet", (req, res) => {
