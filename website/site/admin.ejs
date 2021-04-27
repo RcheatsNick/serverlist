@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WhYBoLu Server List</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="shortcut icon" href="<%=bot.user.displayAvatarURL({ dynamic: true })%>">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/fontastic.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <link rel="stylesheet" href="https://file.myfontastic.com/da58YPMQ7U5HY8Rb6UxkNf/icons.css">
+    <link href="https://use.fontawesome.com/99347ac47f.css" media="all" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.default.css" id="theme-stylesheet">
+    <script src="https://use.fontawesome.com/99347ac47f.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <nav class="navbar">
+          <div class="container-fluid">
+            <div class="navbar-holder d-flex align-items-center justify-content-between">
+              <div class="navbar-header">
+                <a href="/" class="navbar-brand d-none d-sm-inline-block">
+                  <div class="brand-text d-none d-lg-inline-block"><span>WhYBoLu Server List </span><strong> Admin Panel</strong></div>
+                  <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>BD</strong></div></a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="page-content d-flex align-items-stretch"> 
+        <nav class="side-navbar">
+          <div class="sidebar-header d-flex align-items-center">
+            <div class="avatar"><img src="<%= bot.users.cache.get(req.user.id).displayAvatarURL({ dynamic: true }) %>" class="img-fluid rounded-circle"></div>
+            <div class="title">
+              <h1 class="h4"><%= bot.users.cache.get(req.user.id).tag %></h1>
+              <p>Admin</p>
+            </div>
+          </div>
+          <span class="heading">Ana Menü</span>
+          <ul class="list-unstyled">
+            <li class="active"><a href="/admin"> <i class="fas fa-home"></i>Ana Sayfa </a></li>
+            <li><a href="/admin/yetkili/liste"> <i class="fas fa-user"></i>Yetkililer </a></li>
+            <li><a href="/admin/sikayet"> <i class="fas fa-flag"></i>Şikayetler </a></li>
+            <li><a href="/cikis"> <i class="fas fa-sign-out-alt"></i>Çıkış Yap </a></li>
+          </ul><span class="heading">Ekstra Menü</span>
+          <ul class="list-unstyled">
+            <li> <a href="/admin/yetkili/ekle"> <i class="fas fa-user"></i>Yetkili Ekle </a></li>
+            <li> <a href="/admin/yetkili/ekle"> <i class="fas fa-user"></i>Yetkili Kaldır </a></li>
+            <li> <a href="/admin/sertifika/ver"> <i class="fas fa-certificate"></i>Sertifika Ver </a></li>
+            <li> <a href="/admin/sertifika/kaldir"> <i class="fas fa-certificate"></i>Sertifika Kaldır </a></li>
+          </ul>
+        </nav>
+        <div class="content-inner">
+          <header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Admin Panel</h2>
+            </div>
+          </header>
+          <section class="dashboard-counts no-padding-bottom">
+            <div class="container-fluid">
+              <div class="row bg-white has-shadow">
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-violet"><i class="icon-user"></i></div>
+                    <div class="title"><span>Kullanıcı Sayısı</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: 25%; height: 4px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-violet"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong><%=bot.users.cache.size%></strong></div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-red"><i class="icon-padnote"></i></div>
+                    <div class="title"><span>Sunucu Sayısı</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: 70%; height: 4px;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-red"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong><%=bot.guilds.cache.size%></strong></div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-green"><i class="icon-bill"></i></div>
+                    <div class="title"><span>Yetkili Sayısı</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: 40%; height: 4px;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-green"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong><%=bot.db.fetch("staffs").length || 0%></strong></div>
+                  </div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                  <div class="item d-flex align-items-center">
+                    <div class="icon bg-orange"><i class="icon-check"></i></div>
+                    <div class="title"><span>???</span>
+                      <div class="progress">
+                        <div role="progressbar" style="width: 50%; height: 4px;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-orange"></div>
+                      </div>
+                    </div>
+                    <div class="number"><strong>50</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="feeds no-padding-top">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="articles card">
+                    <div class="card-header d-flex align-items-center">
+                      <h2 class="h3">Trend Sunucular</h2>
+                      <div class="badge badge-rounded bg-green">Yeni Özellik</div>
+                    </div>
+                    <div class="card-body no-padding">
+                      <% bot.guilds.cache.filter(s => bot.db.has(`${s.id}.serverName`) === true).array().sort((a, b) => { return bot.db.fetch(`${b.id}.serverVote`) - bot.db.fetch(`${a.id}.serverVote`) }).splice(0, 5).map(sunucu => { %>
+                        <div class="item d-flex align-items-center">
+                          <div class="image"><img src="<%=sunucu.iconURL({ dynamic: true })%>" alt="..." class="img-fluid rounded-circle"></div>
+                            <div class="text"><a href="/sunucu/<%=sunucu.id%>">
+                            <h3 class="h5"><%=sunucu.name%></h3></a><small><%=bot.db.fetch(`${sunucu.id}.shortDescription`) || "Ayarlanmamış"%>   </small></div>
+                          </div>
+                      <% }) %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="checklist card">
+                    <div class="card-header d-flex align-items-center">           
+                      <h2 class="h3">Yapılacaklar Listesi</h2>
+                    </div>
+                    <div class="card-body no-padding">
+                      <div class="item d-flex">
+                        <input type="checkbox" id="input-1" name="input-1" class="checkbox-template">
+                        <label for="input-1">Sertifika Ekle/Kaldır.</label>
+                      </div>
+                      <div class="item d-flex">
+                        <input type="checkbox" id="input-2" name="input-2" class="checkbox-template">
+                        <label for="input-2">Yetkili Ekle/Kaldır.</label>
+                      </div>
+                      <div class="item d-flex">
+                        <input type="checkbox" id="input-3" name="input-3" class="checkbox-template">
+                        <label for="input-3">Ses Sıralaması.</label>
+                      </div>
+                      <div class="item d-flex">
+                        <input type="checkbox" id="input-4" name="input-4" class="checkbox-template">
+                        <label for="input-4">Şikayet Sistemi.</label>
+                      </div>
+                      <div class="item d-flex">
+                        <input type="checkbox" id="input-5" name="input-5" class="checkbox-template">
+                        <label for="input-5">Yorum Sistemi.</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <footer class="main-footer">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-6">
+                  <p>WhYBoLu Server List &copy; 2020-2021</p>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <p><a href="/" class="external">TheClawNz#7987</a> Tarafından yapılmıştır.</p>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+  </body>
+</html>
